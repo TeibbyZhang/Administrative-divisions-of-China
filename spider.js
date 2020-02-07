@@ -1,5 +1,4 @@
 const app = require('express')();
-// const request = require('request');
 const request = require('superagent');
 const cheerio = require('cheerio');
 
@@ -8,7 +7,6 @@ const db = require('./db');
 const provinces = [];
 const cities = [];
 const areas = [];
-// const villages = [];
 
 const baseUrl = 'http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/{#code}.html';
 
@@ -18,7 +16,6 @@ app.get('/', (req, res) => {
     .get('http://www.mca.gov.cn/article/sj/xzqh/1980/201903/201903011447.html')
     .set({'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'})
     .end((error, response) => {
-  // request.get('http://www.baidu.com', (error, response, body) => {
     if (!error && response.statusCode === 200) {
       console.log('正在处理省市区县的数据！');
       const $ = cheerio.load(response.text);
@@ -49,7 +46,6 @@ app.get('/', (req, res) => {
         }
       });
       console.log('省市区县数据处理完毕！');
-      // console.log(provinces.length, cities.length, areas.length);
       console.log(`省市区县行政区划抓取完毕，共有${provinces.length}个省、${cities.length}个市、${areas.length}个区县`);
       console.log('[1/2]正在将区县数据写入数据库！');
       provinces.forEach(province => {
